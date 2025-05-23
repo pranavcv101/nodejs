@@ -65,8 +65,15 @@ class EmployeeService {
                 employee.name = updatedEmployee.name;
                 employee.email = updatedEmployee.email;
                 employee.age = updatedEmployee.age;
+                employee.experience = updatedEmployee.experience;
+                employee.employeeId = updatedEmployee.employeeId;
+                employee.dateOfJoining = updatedEmployee.dateOfJoining;
+                employee.status = updatedEmployee.status;
+                newAddress.id = existingEmployee.address.id; // this is done so to keep the addres id same or it would crate new id
                 newAddress.line1 = updatedEmployee.address.line1;
+                newAddress.line2 = updatedEmployee.address.line2;
                 newAddress.pincode = updatedEmployee.address.pincode;
+                newAddress.houseNo = updatedEmployee.address.houseNo;
                 employee.address = newAddress;
                 yield this.employeeRepository.update(id, employee);
             }
