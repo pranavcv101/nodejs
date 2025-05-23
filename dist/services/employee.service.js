@@ -21,16 +21,22 @@ class EmployeeService {
         this.employeeRepository = employeeRepository;
         this.logger = logger_service_1.LoggerService.getInstance(EmployeeService.name);
     }
-    createEmployee(email, name, age, role, address, password) {
+    createEmployee(email, name, age, role, address, password, employeeId, experience, dateOfJoining, status) {
         return __awaiter(this, void 0, void 0, function* () {
             const newEmployee = new employee_entity_1.default();
             const newAddress = new address_entity_1.default();
             newAddress.line1 = address.line1;
+            newAddress.line2 = address.line2;
+            newAddress.houseNo = address.houseNo;
             newAddress.pincode = address.pincode;
             newEmployee.name = name;
             newEmployee.email = email;
             newEmployee.age = age;
             newEmployee.role = role;
+            newEmployee.employeeId = employeeId;
+            newEmployee.experience = experience;
+            newEmployee.dateOfJoining = dateOfJoining;
+            newEmployee.status = status;
             newEmployee.address = newAddress;
             newEmployee.password = yield bcrypt_1.default.hash(password, 10);
             return this.employeeRepository.create(newEmployee);
@@ -68,7 +74,10 @@ class EmployeeService {
     }
     deleteEmployee(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.employeeRepository.delete(id);
+            const existingEmployee = yield this.employeeRepository.findOneBy(id);
+            if (existingEmployee) {
+                yield this.employeeRepository.remove(existingEmployee);
+            }
         });
     }
     getEmployeeByEmail(email) {

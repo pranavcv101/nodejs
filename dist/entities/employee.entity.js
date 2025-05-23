@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmployeeRole = void 0;
+exports.Status = exports.EmployeeRole = void 0;
 const typeorm_1 = require("typeorm");
 const abstract_entity_1 = __importDefault(require("./abstract.entity"));
 const address_entity_1 = __importDefault(require("./address.entity"));
@@ -23,6 +23,12 @@ var EmployeeRole;
     EmployeeRole["DEVELOPER"] = "DEVELOPER";
     EmployeeRole["HR"] = "HR";
 })(EmployeeRole || (exports.EmployeeRole = EmployeeRole = {}));
+var Status;
+(function (Status) {
+    Status["ACTIVE"] = "ACTIVE";
+    Status["INACTIVE"] = "INACTIVE";
+    Status["PROBATION"] = "PROBATION";
+})(Status || (exports.Status = Status = {}));
 let Employee = class Employee extends abstract_entity_1.default {
 };
 __decorate([
@@ -39,7 +45,8 @@ __decorate([
 ], Employee.prototype, "age", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => address_entity_1.default, (address) => address.employee, {
-        cascade: true
+        cascade: true,
+        onDelete: 'CASCADE'
     }),
     __metadata("design:type", address_entity_1.default)
 ], Employee.prototype, "address", void 0);
@@ -55,6 +62,26 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Employee.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Employee.prototype, "employeeId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], Employee.prototype, "dateOfJoining", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Employee.prototype, "experience", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: Status,
+        default: Status.PROBATION
+    }),
+    __metadata("design:type", String)
+], Employee.prototype, "status", void 0);
 Employee = __decorate([
     (0, typeorm_1.Entity)()
 ], Employee);

@@ -1,5 +1,5 @@
 import EmployeeRepository from "../repositories/employee.repository";
-import Employee, { EmployeeRole } from "../entities/employee.entity";
+import Employee, { EmployeeRole, Status } from "../entities/employee.entity";
 import Address from "../entities/address.entity";
 import { CreateEmployeeDto } from "../dto/create-employee.dto";
 import CreateAddressDto from "../dto/create-address.dto";
@@ -12,15 +12,23 @@ class EmployeeService{
 
     }
 
-    async createEmployee(email:string, name:string ,age:number ,role: EmployeeRole ,address:CreateAddressDto , password:string) : Promise<Employee> {
+    async createEmployee(email:string, name:string ,age:number ,role: EmployeeRole ,address:CreateAddressDto , password:string , 
+                        employeeId : string , experience : number , dateOfJoining : Date , status : Status) : Promise<Employee> {
         const newEmployee = new Employee()
         const newAddress = new Address()
         newAddress.line1 = address.line1
+        newAddress.line2 = address.line2
+        newAddress.houseNo = address.houseNo
         newAddress.pincode = address.pincode
         newEmployee.name = name;
         newEmployee.email = email;
         newEmployee.age = age;
-        newEmployee.role = role
+        newEmployee.role = role;
+        newEmployee.employeeId = employeeId;
+        newEmployee.experience = experience;
+        newEmployee.dateOfJoining = dateOfJoining;
+        newEmployee.status = status;
+
         newEmployee.address = newAddress;
         newEmployee.password = await bcrypt.hash(password , 10);
         return this.employeeRepository.create(newEmployee);
@@ -56,7 +64,10 @@ class EmployeeService{
     }
 
     async deleteEmployee(id:number){
-        await this.employeeRepository.delete(id)
+        const existingEmployee = await this.employeeRepository.findOneBy(id);
+        if (existingEmployee){
+            await this.employeeRepository.remove(existingEmployee);
+        }
     }
 
     async getEmployeeByEmail(email:string){

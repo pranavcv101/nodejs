@@ -33,10 +33,9 @@ class EmployeeRepository {
     async findbyEmail (email:string) : Promise<Employee> {
         return this.repository.findOneBy({email});
     }
-    async delete(empId:number){
-        const employee = await this.repository.findOneBy({id:empId});
-        if(employee)
-            await this.repository.softRemove(employee);
+    async remove(employee:Employee) : Promise<void>{
+        // const employee = await this.repository.findOneBy({id:empId});
+        await this.repository.softRemove(employee);
     }
     async update(id:number , employee : Employee) : Promise<void> {
         await this.repository.save({id,...employee});  // ...this is spread operaion

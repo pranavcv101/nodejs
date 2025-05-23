@@ -63,7 +63,7 @@ class EmployeeController {
                     console.log(JSON.stringify(errors));
                     throw new httpException_1.default(400, JSON.stringify(errors));
                 }
-                const savedEmployee = yield this.employeeService.createEmployee(createEmployeeDto.email, createEmployeeDto.name, createEmployeeDto.age, createEmployeeDto.role, createEmployeeDto.address, createEmployeeDto.password);
+                const savedEmployee = yield this.employeeService.createEmployee(createEmployeeDto.email, createEmployeeDto.name, createEmployeeDto.age, createEmployeeDto.role, createEmployeeDto.address, createEmployeeDto.password, createEmployeeDto.employeeId, createEmployeeDto.experience, createEmployeeDto.dateOfJoining, createEmployeeDto.status);
                 res.status(201).send(savedEmployee);
             }
             catch (error) {

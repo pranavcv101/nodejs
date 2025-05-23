@@ -42,11 +42,10 @@ class EmployeeRepository {
             return this.repository.findOneBy({ email });
         });
     }
-    delete(empId) {
+    remove(employee) {
         return __awaiter(this, void 0, void 0, function* () {
-            const employee = yield this.repository.findOneBy({ id: empId });
-            if (employee)
-                yield this.repository.softRemove(employee);
+            // const employee = await this.repository.findOneBy({id:empId});
+            yield this.repository.softRemove(employee);
         });
     }
     update(id, employee) {

@@ -1,4 +1,4 @@
-import {Column, Entity , OneToOne, PrimaryGeneratedColumn ,JoinColumn} from "typeorm"
+import {Column, Entity , OneToOne, PrimaryGeneratedColumn ,JoinColumn, ColumnTypeUndefinedError} from "typeorm"
 import AbstractEntity from "./abstract.entity";
 import Employee from "./employee.entity";
 
@@ -17,8 +17,15 @@ class Address extends AbstractEntity{
     @OneToOne(() => Employee, (employee) => employee.address, {
      onDelete: 'CASCADE'
     })
+
     @JoinColumn()
     employee: Employee;
+
+    @Column()
+    line2:string
+
+    @Column()
+    houseNo:string
 
 }
 
