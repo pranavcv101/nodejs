@@ -9,7 +9,7 @@ import { validate } from "class-validator";
 import Address from "../entities/address.entity";
 
 // import { authorizationMiddleware } from "../middleware/authorization.middleware"
-import { checkRole } from "../middleware/authorization.middleware"; 
+import { checkRoles } from "../middleware/authorization.middleware"; 
 import { EmployeeRole } from "../entities/employee.entity";
 
 class EmployeeController {
@@ -20,10 +20,10 @@ class EmployeeController {
     //shortcut for this above three  lines
     constructor(private employeeService: EmployeeService, router : Router){
         router.get("/",this.getallEmployees.bind(this));
-        router.post("/",checkRole(EmployeeRole.HR),this.createEmployee.bind(this));//bind used to bind the method to the employee controller classs
+        router.post("/",checkRoles(EmployeeRole.HR),this.createEmployee.bind(this));//bind used to bind the method to the employee controller classs
         router.get("/:id",this.getEmployeeById.bind(this));
-        router.put("/:id",checkRole(EmployeeRole.HR),this.updateEmployee); // bind not required because wwe defined updateemployee as arrrow function
-        router.delete("/:id",checkRole(EmployeeRole.HR),this.deleteEmployee);
+        router.put("/:id",checkRoles(EmployeeRole.HR),this.updateEmployee); // bind not required because wwe defined updateemployee as arrrow function
+        router.delete("/:id",checkRoles(EmployeeRole.HR),this.deleteEmployee);
     }
     
     async createEmployee(req: Request , res: Response ,next:NextFunction) {

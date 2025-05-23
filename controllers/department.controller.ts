@@ -6,15 +6,15 @@ import { CreateEmployeeDto } from "../dto/create-employee.dto";
 import { validate, validateOrReject } from "class-validator";
 import HttpException from "../exception/httpException";
 import DepartmentService from "../services/department.service";
-import { checkRole } from "../middleware/authorization.middleware";
+import { checkRoles } from "../middleware/authorization.middleware";
 import { EmployeeRole } from "../entities/employee.entity";
 class DepartmentController{
     constructor(private departmentService:DepartmentService, router : Router){
         router.get("/",this.getAllDepartments.bind(this));
-        router.post("/",checkRole(EmployeeRole.HR),this.createDepartment.bind(this));//bind used to bind the method to the employee controller classs
+        router.post("/",checkRoles(EmployeeRole.HR),this.createDepartment.bind(this));//bind used to bind the method to the employee controller classs
         router.get("/:id",this.getDepartmentByID.bind(this));
-        router.put("/:id",checkRole(EmployeeRole.HR),this.updateDepartment); // bind not required because wwe defined updateemployee as arrrow function
-        router.delete("/:id",checkRole(EmployeeRole.HR),this.deleteDepartment);
+        router.put("/:id",checkRoles(EmployeeRole.HR),this.updateDepartment); // bind not required because wwe defined updateemployee as arrrow function
+        router.delete("/:id",checkRoles(EmployeeRole.HR),this.deleteDepartment);
     }
 
     async createDepartment(req: Request , res:Response , next:NextFunction){
