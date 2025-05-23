@@ -46,7 +46,7 @@ class EmployeeRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const employee = yield this.repository.findOneBy({ id: empId });
             if (employee)
-                yield this.repository.remove(employee);
+                yield this.repository.softRemove(employee);
         });
     }
     update(id, employee) {

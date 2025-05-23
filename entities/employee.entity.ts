@@ -22,7 +22,7 @@ class Employee extends AbstractEntity{
 
     @Column()
     age:number;
-
+ 
   @OneToOne(() => Address, (address) => address.employee, {
    cascade: true
   })

@@ -16,7 +16,9 @@ const httpException_1 = __importDefault(require("../exception/httpException"));
 const class_transformer_1 = require("class-transformer");
 const create_employee_dto_1 = require("../dto/create-employee.dto");
 const class_validator_1 = require("class-validator");
+// import { authorizationMiddleware } from "../middleware/authorization.middleware"
 const authorization_middleware_1 = require("../middleware/authorization.middleware");
+const employee_entity_1 = require("../entities/employee.entity");
 class EmployeeController {
     // private employeeService: EmployeeServices;
     // constructor(employeeService : EmployeeServices) {
@@ -46,11 +48,11 @@ class EmployeeController {
             yield this.employeeService.deleteEmployee(id);
             res.status(205).send();
         });
-        router.get("/", this.createEmployee.bind(this));
-        router.post("/", authorization_middleware_1.authorizationMiddleware, this.createEmployee.bind(this)); //bind used to bind the method to the employee controller classs
+        router.get("/", this.getallEmployees.bind(this));
+        router.post("/", (0, authorization_middleware_1.checkRole)(employee_entity_1.EmployeeRole.HR), this.createEmployee.bind(this)); //bind used to bind the method to the employee controller classs
         router.get("/:id", this.getEmployeeById.bind(this));
-        router.put("/:id", authorization_middleware_1.authorizationMiddleware, this.updateEmployee); // bind not required because wwe defined updateemployee as arrrow function
-        router.delete("/:id", authorization_middleware_1.authorizationMiddleware, this.deleteEmployee);
+        router.put("/:id", (0, authorization_middleware_1.checkRole)(employee_entity_1.EmployeeRole.HR), this.updateEmployee); // bind not required because wwe defined updateemployee as arrrow function
+        router.delete("/:id", (0, authorization_middleware_1.checkRole)(employee_entity_1.EmployeeRole.HR), this.deleteEmployee);
     }
     createEmployee(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
