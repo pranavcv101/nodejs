@@ -46,7 +46,4 @@ export class CreateEmployeeDto {
   @IsDateString()
   dateOfJoining : Date
 
-
-
-
 }

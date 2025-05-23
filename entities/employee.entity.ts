@@ -1,6 +1,7 @@
-import {Column ,Entity, JoinColumn, OneToOne  } from "typeorm"
+import {Column ,Entity, JoinColumn, ManyToOne, OneToOne  } from "typeorm"
 import AbstractEntity from "./abstract.entity";
 import Address from "./address.entity";
+import Department from "./department.entity";
 
 export enum EmployeeRole {
   UI = 'UI ',
@@ -61,6 +62,9 @@ class Employee extends AbstractEntity{
       default :Status.PROBATION
     })
     status : Status
+
+    @ManyToOne(() => Department , (department) => department.employee)
+      department:Department
     }
 
 

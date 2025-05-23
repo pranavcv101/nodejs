@@ -6,6 +6,7 @@ import { errorMiddleware } from "./middleware/errorMiddleware";
 import authRouter from "./routes/auth.routes";
 import { authMiddleware } from "./middleware/auth.middleware";
 import { LoggerService } from "./services/logger.service";
+import departmentRouter from "./routes/department.routes";
 
 // import { LoggerService } from "./services/logger.service";
 
@@ -20,6 +21,7 @@ server.use(express.json());
 server.use(loggerMiddleware);
 
 server.use("/employee", authMiddleware, employeeRouter);
+server.use("/department", authMiddleware, departmentRouter);
 server.use("/auth",authRouter)
 server.use(errorMiddleware);
 
