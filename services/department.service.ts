@@ -27,6 +27,9 @@ class DepartmentService{
         return department;
     }
 
+     async getDepartmentByName(name:string):Promise<Department|null>{
+        return this.departmentRepository.findByName(name);
+    }
     async updateDepartment(id:number , updatedDepartment : CreateDepartmentDto) {
         const existingDepartment = await this.departmentRepository.findOneBy(id);
         if(existingDepartment){
@@ -41,6 +44,11 @@ class DepartmentService{
         if (existingDepartment){
             await this.departmentRepository.remove(existingDepartment);
         }
+    }
+
+    async deleteDepartmentById(id:number){
+         this.logger.info(`deleting department with ID ${id}`);
+         await this.departmentRepository.delete(id);
     }
     
 

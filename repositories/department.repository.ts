@@ -32,5 +32,15 @@ class DepartmentRepostory {
     async update(id: number , department: Department) : Promise<void>{
         await this.repository.save({id,...department})
     }
+
+     async findByName(name: string): Promise<Department>{
+        return this.repository.findOne({
+            where:{name}
+        })
+    }
+
+     async delete(depId: number) {
+        await this.repository.delete({ id: depId });
+    }
 }
 export default DepartmentRepostory;
