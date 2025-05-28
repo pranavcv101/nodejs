@@ -46,7 +46,7 @@ describe('DepartmentService', () => {
     describe('getAllDepartments', () => {
         it("should return all departments from repository", async () => {
             const mockDepartments = [
-                { id: 1, name: "Department 1" } as Department,
+            { id: 1, name: "Department 1" } as Department ,
                 { id: 2, name: "Department 2" } as Department
             ];
             when(departmentRepository.findMany).calledWith().mockReturnValue(mockDepartments);

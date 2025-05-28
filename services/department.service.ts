@@ -9,9 +9,9 @@ class DepartmentService{
 
     }
 
-    async createDepartment(depName : string){
+    async createDepartment(depName : CreateDepartmentDto){
         const newDepartment = new Department()
-        newDepartment.name = depName
+        newDepartment.name = depName.name
         return this.departmentRepository.create(newDepartment)
     }
     
@@ -47,7 +47,7 @@ class DepartmentService{
     }
 
     async deleteDepartmentById(id:number){
-         this.logger.info(`deleting department with ID ${id}`);
+    
          await this.departmentRepository.delete(id);
     }
     
