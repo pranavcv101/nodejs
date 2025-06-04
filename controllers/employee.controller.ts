@@ -29,6 +29,7 @@ class EmployeeController {
     async createEmployee(req: Request , res: Response ,next:NextFunction) {
             try {
                 const createEmployeeDto = plainToInstance(CreateEmployeeDto, req.body);
+                console.log(req.body)
                 const errors = await validate(createEmployeeDto);
                 if (errors.length > 0) {
                     console.log(JSON.stringify(errors));
@@ -43,8 +44,9 @@ class EmployeeController {
                     createEmployeeDto.password,
                     createEmployeeDto.employeeId,
                     createEmployeeDto.experience,
-                    createEmployeeDto.dateOfJoining        ,            
-                    createEmployeeDto.status  
+                    createEmployeeDto.dateOfJoining ,            
+                    createEmployeeDto.status ,
+                    createEmployeeDto.departmentId
                 );
                         res.status(201).send(savedEmployee);
             } catch (error) {

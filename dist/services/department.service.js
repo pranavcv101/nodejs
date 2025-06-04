@@ -20,7 +20,7 @@ class DepartmentService {
     createDepartment(depName) {
         return __awaiter(this, void 0, void 0, function* () {
             const newDepartment = new department_entity_1.default();
-            newDepartment.name = depName;
+            newDepartment.name = depName.name;
             return this.departmentRepository.create(newDepartment);
         });
     }
@@ -36,6 +36,11 @@ class DepartmentService {
                 throw new Error("Department not found");
             }
             return department;
+        });
+    }
+    getDepartmentByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.departmentRepository.findByName(name);
         });
     }
     updateDepartment(id, updatedDepartment) {
@@ -54,6 +59,11 @@ class DepartmentService {
             if (existingDepartment) {
                 yield this.departmentRepository.remove(existingDepartment);
             }
+        });
+    }
+    deleteDepartmentById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.departmentRepository.delete(id);
         });
     }
 }

@@ -43,10 +43,10 @@ class DepartmentController {
             res.status(205).send();
         });
         router.get("/", this.getAllDepartments.bind(this));
-        router.post("/", (0, authorization_middleware_1.checkRole)(employee_entity_1.EmployeeRole.HR), this.createDepartment.bind(this)); //bind used to bind the method to the employee controller classs
+        router.post("/", (0, authorization_middleware_1.checkRoles)(employee_entity_1.EmployeeRole.HR), this.createDepartment.bind(this)); //bind used to bind the method to the employee controller classs
         router.get("/:id", this.getDepartmentByID.bind(this));
-        router.put("/:id", (0, authorization_middleware_1.checkRole)(employee_entity_1.EmployeeRole.HR), this.updateDepartment); // bind not required because wwe defined updateemployee as arrrow function
-        router.delete("/:id", (0, authorization_middleware_1.checkRole)(employee_entity_1.EmployeeRole.HR), this.deleteDepartment);
+        router.put("/:id", (0, authorization_middleware_1.checkRoles)(employee_entity_1.EmployeeRole.HR), this.updateDepartment); // bind not required because wwe defined updateemployee as arrrow function
+        router.delete("/:id", (0, authorization_middleware_1.checkRoles)(employee_entity_1.EmployeeRole.HR), this.deleteDepartment);
     }
     createDepartment(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -57,7 +57,7 @@ class DepartmentController {
                     console.log(JSON.stringify(errors));
                     throw new httpException_1.default(400, JSON.stringify(errors));
                 }
-                const savedDepartment = yield this.departmentService.createDepartment(createDepartmentDto.name);
+                const savedDepartment = yield this.departmentService.createDepartment(createDepartmentDto);
                 res.status(201).send(savedDepartment);
             }
             catch (err) {

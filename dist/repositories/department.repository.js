@@ -40,6 +40,18 @@ class DepartmentRepostory {
             yield this.repository.save(Object.assign({ id }, department));
         });
     }
+    findByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.repository.findOne({
+                where: { name }
+            });
+        });
+    }
+    delete(depId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.repository.delete({ id: depId });
+        });
+    }
 }
 exports.default = DepartmentRepostory;
 //# sourceMappingURL=department.repository.js.map

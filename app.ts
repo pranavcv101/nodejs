@@ -7,6 +7,7 @@ import authRouter from "./routes/auth.routes";
 import { authMiddleware } from "./middleware/auth.middleware";
 import { LoggerService } from "./services/logger.service";
 import departmentRouter from "./routes/department.routes";
+import cors from "cors"
 
 // import { LoggerService } from "./services/logger.service";
 
@@ -19,6 +20,7 @@ const logger = LoggerService.getInstance('app()')
 
 server.use(express.json());
 server.use(loggerMiddleware);
+server.use(cors());
 
 server.use("/employee", authMiddleware, employeeRouter);
 server.use("/department", authMiddleware, departmentRouter);
@@ -39,7 +41,7 @@ server.get("/", (req, res) => {
     logger.error('failed to connect to DB');
     process.exit(1);
   }
- server.listen(3000, () => {
+ server.listen(4000, () => {
   logger.info("server listening to 3000");
 });
 })

@@ -26,7 +26,7 @@ class DepartmentController{
             throw new HttpException(400,JSON.stringify(errors))
         }
         const savedDepartment = await this.departmentService.createDepartment(
-            createDepartmentDto.name
+            createDepartmentDto
         );
         res.status(201).send(savedDepartment);
 

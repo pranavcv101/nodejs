@@ -5,6 +5,7 @@ import { CreateEmployeeDto } from "../dto/create-employee.dto";
 import CreateAddressDto from "../dto/create-address.dto";
 import bcrypt from "bcrypt";
 import { LoggerService } from "./logger.service";
+import Department from "../entities/department.entity";
 
 class EmployeeService{
     private logger = LoggerService.getInstance(EmployeeService.name)
@@ -13,9 +14,11 @@ class EmployeeService{
     }
 
     async createEmployee(email:string, name:string ,age:number ,role: EmployeeRole ,address:CreateAddressDto , password:string , 
-                        employeeId : string , experience : number , dateOfJoining : Date , status : Status) : Promise<Employee> {
+                        employeeId : string , experience : number , dateOfJoining : Date , status : Status , departmentId :number) : Promise<Employee> {
         const newEmployee = new Employee()
         const newAddress = new Address()
+        const dep = new Department()
+        dep.id = departmentId
         newAddress.line1 = address.line1
         newAddress.line2 = address.line2
         newAddress.houseNo = address.houseNo
@@ -28,7 +31,7 @@ class EmployeeService{
         newEmployee.experience = experience;
         newEmployee.dateOfJoining = dateOfJoining;
         newEmployee.status = status;
-
+        newEmployee.department = dep;
         newEmployee.address = newAddress;
         newEmployee.password = await bcrypt.hash(password , 10);
         return this.employeeRepository.create(newEmployee);
@@ -53,6 +56,8 @@ class EmployeeService{
         if(existingEmployee){
             const employee = new Employee();
             const newAddress= new Address();
+            const dep = new Department();
+            dep.id = updatedEmployee.departmentId;
             employee.name = updatedEmployee.name;
             employee.email = updatedEmployee.email;
             employee.age = updatedEmployee.age;
@@ -60,12 +65,14 @@ class EmployeeService{
             employee.employeeId = updatedEmployee.employeeId;
             employee.dateOfJoining = updatedEmployee.dateOfJoining;
             employee.status= updatedEmployee.status;
+            employee.role= updatedEmployee.role;
             newAddress.id = existingEmployee.address.id // this is done so to keep the addres id same or it would crate new id
             newAddress.line1 = updatedEmployee.address.line1;
             newAddress.line2 = updatedEmployee.address.line2;
             newAddress.pincode = updatedEmployee.address.pincode;
             newAddress.houseNo = updatedEmployee.address.houseNo;
             employee.address = newAddress;
+            employee.department = dep;
             await this.employeeRepository.update(id,employee)
         }
     }

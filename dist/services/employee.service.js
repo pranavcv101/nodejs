@@ -16,15 +16,18 @@ const employee_entity_1 = __importDefault(require("../entities/employee.entity")
 const address_entity_1 = __importDefault(require("../entities/address.entity"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const logger_service_1 = require("./logger.service");
+const department_entity_1 = __importDefault(require("../entities/department.entity"));
 class EmployeeService {
     constructor(employeeRepository) {
         this.employeeRepository = employeeRepository;
         this.logger = logger_service_1.LoggerService.getInstance(EmployeeService.name);
     }
-    createEmployee(email, name, age, role, address, password, employeeId, experience, dateOfJoining, status) {
+    createEmployee(email, name, age, role, address, password, employeeId, experience, dateOfJoining, status, departmentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const newEmployee = new employee_entity_1.default();
             const newAddress = new address_entity_1.default();
+            const dep = new department_entity_1.default();
+            dep.id = departmentId;
             newAddress.line1 = address.line1;
             newAddress.line2 = address.line2;
             newAddress.houseNo = address.houseNo;
@@ -37,6 +40,7 @@ class EmployeeService {
             newEmployee.experience = experience;
             newEmployee.dateOfJoining = dateOfJoining;
             newEmployee.status = status;
+            newEmployee.department = dep;
             newEmployee.address = newAddress;
             newEmployee.password = yield bcrypt_1.default.hash(password, 10);
             return this.employeeRepository.create(newEmployee);
@@ -62,6 +66,8 @@ class EmployeeService {
             if (existingEmployee) {
                 const employee = new employee_entity_1.default();
                 const newAddress = new address_entity_1.default();
+                const dep = new department_entity_1.default();
+                dep.id = updatedEmployee.departmentId;
                 employee.name = updatedEmployee.name;
                 employee.email = updatedEmployee.email;
                 employee.age = updatedEmployee.age;
@@ -69,12 +75,14 @@ class EmployeeService {
                 employee.employeeId = updatedEmployee.employeeId;
                 employee.dateOfJoining = updatedEmployee.dateOfJoining;
                 employee.status = updatedEmployee.status;
+                employee.role = updatedEmployee.role;
                 newAddress.id = existingEmployee.address.id; // this is done so to keep the addres id same or it would crate new id
                 newAddress.line1 = updatedEmployee.address.line1;
                 newAddress.line2 = updatedEmployee.address.line2;
                 newAddress.pincode = updatedEmployee.address.pincode;
                 newAddress.houseNo = updatedEmployee.address.houseNo;
                 employee.address = newAddress;
+                employee.department = dep;
                 yield this.employeeRepository.update(id, employee);
             }
         });

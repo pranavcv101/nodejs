@@ -25,7 +25,7 @@ export class CreateEmployeeDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(5)
+  @MinLength(2)
   password : string
 
 
@@ -46,4 +46,6 @@ export class CreateEmployeeDto {
   @IsDateString()
   dateOfJoining : Date
 
+  @IsNumber()
+  departmentId : number
 }

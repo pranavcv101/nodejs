@@ -21,12 +21,14 @@ const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const auth_middleware_1 = require("./middleware/auth.middleware");
 const logger_service_1 = require("./services/logger.service");
 const department_routes_1 = __importDefault(require("./routes/department.routes"));
+const cors_1 = __importDefault(require("cors"));
 // import { LoggerService } from "./services/logger.service";
 const { Client } = require('pg');
 const server = (0, express_1.default)();
 const logger = logger_service_1.LoggerService.getInstance('app()');
 server.use(express_1.default.json());
 server.use(loggerMiddleware_1.default);
+server.use((0, cors_1.default)());
 server.use("/employee", auth_middleware_1.authMiddleware, employee_route_1.default);
 server.use("/department", auth_middleware_1.authMiddleware, department_routes_1.default);
 server.use("/auth", auth_routes_1.default);
@@ -44,7 +46,7 @@ server.get("/", (req, res) => {
         logger.error('failed to connect to DB');
         process.exit(1);
     }
-    server.listen(3000, () => {
+    server.listen(4000, () => {
         logger.info("server listening to 3000");
     });
 }))();

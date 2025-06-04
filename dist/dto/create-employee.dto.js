@@ -41,7 +41,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(5),
+    (0, class_validator_1.MinLength)(2),
     __metadata("design:type", String)
 ], CreateEmployeeDto.prototype, "password", void 0);
 __decorate([
@@ -66,4 +66,8 @@ __decorate([
     (0, class_validator_1.IsDateString)(),
     __metadata("design:type", Date)
 ], CreateEmployeeDto.prototype, "dateOfJoining", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateEmployeeDto.prototype, "departmentId", void 0);
 //# sourceMappingURL=create-employee.dto.js.map
